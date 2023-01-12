@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bawei.mapper.TbMiddleMapper" >
+  <resultMap id="BaseResultMap" type="com.bawei.entity.TbMiddle" >
+    <id column="uid" property="uid" jdbcType="INTEGER" />
+    <id column="mid" property="mid" jdbcType="INTEGER" />
+    <result column="mcount" property="mcount" jdbcType="DOUBLE" />
+     <result column="mname" property="mname" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uid, mid, mcount
+  </sql>
+  <select id="selectByUid" parameterType="Integer" resultMap="BaseResultMap">
+     select m.*,m1.mname from tb_middle m left JOIN tb_money 
+      m1 on m.mid =m1.mid
+      where uid=#{uid}
+   </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.bawei.entity.TbMiddleKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_middle
+    where uid = #{uid,jdbcType=INTEGER}
+      and mid = #{mid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.bawei.entity.TbMiddleKey" >
+    delete from tb_middle
+    where uid = #{uid,jdbcType=INTEGER}
+      and mid = #{mid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bawei.entity.TbMiddle" >
+    insert into tb_middle (uid, mid, mcount
+      )
+    values (#{uid,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER}, #{mcount,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bawei.entity.TbMiddle" >
+    insert into tb_middle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="mcount != null" >
+        mcount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="mcount != null" >
+        #{mcount,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bawei.entity.TbMiddle" >
+    update tb_middle
+    <set >
+      <if test="mcount != null" >
+        mcount = #{mcount,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=INTEGER}
+      and mid = #{mid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bawei.entity.TbMiddle" >
+    update tb_middle
+    set mcount = #{mcount,jdbcType=DOUBLE}
+    where uid = #{uid,jdbcType=INTEGER}
+      and mid = #{mid,jdbcType=INTEGER}
+  </update>
+</mapper>
